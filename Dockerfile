@@ -6,7 +6,7 @@ RUN apk update --no-cache
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
 
-RUN install-php-extensions pcov redis pdo pdo_pgsql \
+RUN install-php-extensions pcov redis pdo pdo_pgsql rdkafka \
     && rm -rf /tmp/*
 
 WORKDIR /app
