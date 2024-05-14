@@ -23,7 +23,6 @@ services:
       - host.docker.internal:host-gateway
     depends_on:
       - db
-      - redis
 
   db:
     image: postgres:16-alpine
@@ -37,17 +36,3 @@ services:
       - ./build/psql/init-db.sh:/docker-entrypoint-initdb.d/init-database.sh
     ports:
       - "${POSTGRES_PORT:-5432}:5432"
-
-  redis:
-    image: redis:7.2-alpine
-    hostname: skeleton_redis
-    restart: unless-stopped
-
-  redis-commander:
-    image: rediscommander/redis-commander:latest
-    hostname: skeleton_redis_commander
-    restart: unless-stopped
-    environment:
-      REDIS_HOSTS: local:skeleton_redis:6379
-    ports:
-      - '${REDIS_COMMANDER_HTTP_PORT:-8081}:8081'

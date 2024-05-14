@@ -28,7 +28,6 @@ destroy:
 
 .PHONY: init
 init: up
-	@$(DC) exec redis redis-cli flushall
 	@$(DC) exec php composer install
 
 .PHONY: shell

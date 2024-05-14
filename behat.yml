@@ -7,16 +7,6 @@ default:
         - Utils\Context\TimeContext
         - Utils\Context\DemoContext
 
-  formatters:
-    pretty:
-      paths: false
-      output_styles:
-        comment: [ cyan ]
-    progress:
-      paths: false
-      output_styles:
-        comment: [ cyan ]
-
   extensions:
     FriendsOfBehat\SymfonyExtension:
       bootstrap: 'test/bootstrap.php'
@@ -24,4 +14,4 @@ default:
         path: src/Kernel.php
         class: \App\Kernel
         environment: test
-        debug: true
+        debug: false
