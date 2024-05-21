@@ -23,7 +23,6 @@ services:
       - host.docker.internal:host-gateway
     depends_on:
       - db
-      - redis
       - kafka
 
   db:
@@ -39,20 +38,6 @@ services:
     ports:
       - "${POSTGRES_PORT:-5432}:5432"
 
-  redis:
-    image: redis:7.2-alpine
-    hostname: skeleton_redis
-    restart: unless-stopped
-
-  redis-commander:
-    image: rediscommander/redis-commander:latest
-    hostname: skeleton_redis_commander
-    restart: unless-stopped
-    environment:
-      REDIS_HOSTS: local:skeleton_redis:6379
-    ports:
-      - '${REDIS_COMMANDER_HTTP_PORT:-8081}:8081'
-
   kafka:
     image: bitnami/kafka:latest
     hostname: kafka
@@ -63,3 +48,18 @@ services:
       - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
       - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=0@kafka:9093
       - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+
+  debezium:
+    image: debezium/connect:2.5
+    hostname: debezium
+    ports:
+      - "8083:8083"
+    volumes:
+      - ./debezium.json:/debezium.json
+    environment:
+      - BOOTSTRAP_SERVERS=kafka:9092
+      - GROUP_ID=2
+      - CONFIG_STORAGE_TOPIC=mpay_config_storage
+      - OFFSET_STORAGE_TOPIC=mpay_offsets
+      - STATUS_STORAGE_TOPIC=mpay_statuses
+      - REST_HOST_NAME=0.0.0.0

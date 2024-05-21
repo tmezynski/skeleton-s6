@@ -1,0 +1,28 @@
+{
+  "name": "mass-pay users",
+  "config": {
+    "schema.history.internal.kafka.bootstrap.servers": "kafka:9092",
+    "schema.history.internal.kafka.topic": "schema-changes.inventory",
+    "connector.class": "io.debezium.connector.mysql.MySqlConnector",
+    "connector.adapter": "mariadb",
+    "database.protocol": "jdbc:mariadb",
+    "database.jdbc.driver": "org.mariadb.jdbc.Driver",
+    "database.ssl.mode": "disabled",
+    "database.hostname": "qa-stack-21",
+    "database.port": "60200",
+    "database.user": "root",
+    "database.password": "dPQ3lAwurP",
+    "database.server.id": "184054",
+    "database.include.list": "mpay-qa-stack-21",
+    "table.include.list": "mpay-qa-stack-21.user",
+    "skip.messages.without.change": true,
+    "include.schema.changes": false,
+    "include.schema.comments": false,
+    "topic.creation.enable": true,
+    "topic.prefix": "mpay",
+    "topic.creation.default.replication.factor": 1,
+    "topic.creation.default.partitions": 1,
+    "topic.creation.default.cleanup.policy": "compact",
+    "topic.creation.default.compression.type": "lz4"
+  }
+}
